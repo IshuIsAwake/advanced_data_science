@@ -1,0 +1,11 @@
+torch
+numpy
+pandas
+pyarrow
+scikit-learn
+scipy
+plotly
+seaborn
+matplotlib
+summarytools
+jupyter
