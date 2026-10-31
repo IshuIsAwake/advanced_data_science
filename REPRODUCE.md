@@ -8,7 +8,7 @@ Python 3.11.
 pip install -r requirements.txt
 ```
 
-A CUDA GPU is optional. The part 1 model notebooks put the data on the GPU when there is one (about 3.5 GB of GPU memory) and run on the CPU otherwise , only slower.
+A CUDA GPU is optional. The part 1 model notebooks put the data on the GPU when there is one (about 5.5 GB of GPU memory) and run on the CPU otherwise , only slower.
 
 ## Data
 
@@ -29,10 +29,11 @@ Open each notebook from its own folder (Jupyter's default) and run them in numbe
 
 | notebook | writes | time |
 |---|---|---|
-| `01_eda.ipynb` | `data/ctr/*_sample.parquet` (every 32nd row of each split) , `data/ctr/sizes.csv` | ~1.5 min the first time , seconds after |
-| `02_data_prep.ipynb` | `data/ctr/X_*.parquet` , `data/ctr/y_*.parquet` (needs ~14 GB RAM) | ~20 s |
-| `03_logistic_regression.ipynb` | `data/ctr/logistic_test.parquet` | ~6 min on GPU |
-| `04_svm.ipynb` | | ~7 min on GPU |
+| `01_eda.ipynb` | `data/ctr/*_sample.parquet` (every 40th row of each split) , `data/ctr/sizes.csv` , `data/ctr/hours_all.csv` | ~1.5 min the first time , seconds after |
+| `02_data_prep.ipynb` | `data/ctr/X_*.parquet` , `data/ctr/y_*.parquet` (needs ~20 GB RAM) | ~30 s |
+| `03_logistic_regression.ipynb` | `data/ctr/logistic_test.parquet` | ~5 min on GPU |
+| `04_svm.ipynb` | | ~8 min on GPU |
+| `05_sample_size_and_columns.ipynb` | `data/ctr/sweep_*` (ran under a 26 GB RAM limit) | ~30 min on GPU , settings that don't fit it train on the CPU |
 
 **Part 2 , `projects/job_training_causal_inference/`**
 
@@ -47,4 +48,4 @@ Headless , from the notebook's folder :
 jupyter nbconvert --to notebook --execute --inplace 01_eda.ipynb
 ```
 
-Times are from a laptop with an RTX 3050 (6 GB) and 32 GB RAM. The sample is fixed rows (every 32nd) and the models start from zero weights , so reruns give the same numbers (up to tiny GPU rounding).
+Times are from a laptop with an RTX 3050 (6 GB) and 32 GB RAM. The sample is fixed rows (every 40th) and the models start from zero weights , so reruns give the same numbers (up to tiny GPU rounding).

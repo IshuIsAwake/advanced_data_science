@@ -25,3 +25,22 @@ def diff_in_means(y , z , level=0.95):
 
     return {'treated mean' : y1.mean().item() , 'control mean' : y0.mean().item() , 'diff' : d.item() ,
             'se' : se.item() , 'ci low' : (d - q * se).item() , 'ci high' : (d + q * se).item() , 'p' : p.item()}
+
+
+def cramers_v(a , b):
+    """a , b : two category columns as integer codes 0 , 1 , 2 ... (both 1-d)
+    how strongly they go together , 0 = unrelated , 1 = one fixes the other , the labels don't matter"""
+    a , b = torch.as_tensor(a , dtype=torch.int64) , torch.as_tensor(b , dtype=torch.int64)
+    n , r , c = len(a) , a.max().item() + 1 , b.max().item() + 1
+
+    # n_ij : rows with a = i and b = j , only the pairs that occur
+    pairs , n_ij = torch.unique(a * c + b , return_counts=True)
+    n_i , n_j = torch.bincount(a).double() , torch.bincount(b).double()
+
+    # unrelated columns would give  e_ij = n_i n_j / n
+    # chi2 = sum (n_ij - e_ij)^2 / e_ij = sum n_ij^2 / e_ij - 2 sum n_ij + sum e_ij = n ( sum n_ij^2 / (n_i n_j) - 1 )
+    # so a pair that never occurs drops out , no need for the full r x c table
+    chi2 = n * ((n_ij.double() ** 2 / (n_i[pairs // c] * n_j[pairs % c])).sum() - 1)
+
+    # chi2 grows with n and with the size of the table , its largest value is n (min(r , c) - 1)
+    return torch.sqrt(chi2 / (n * (min(r , c) - 1))).item()
