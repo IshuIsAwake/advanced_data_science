@@ -1,6 +1,11 @@
 # raw downloads and processed files , see REPRODUCE.md
 data/
 
+# context for a model , not for a reader of this repo
+HANDOFF.md
+CLAUDE.md
+.claude/
+
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
