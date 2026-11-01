@@ -25,8 +25,8 @@ An ad platform shows ads on websites and inside apps and is paid when an ad is c
 | website vs app | websites 19.8% , apps 12.0% |
 | device_type | type 0 20.9% , type 1 (92% of traffic) 16.9% , types 4 and 5 about 9.5% |
 | device_conn_type | type 0 (86% of traffic) 18.1% , types 3 and 5 below 5% |
-| site_category (website rows) | from 28.3% (3e814130) down to 3.3% (76b2941d) |
-| app_category (app rows) | from 25.0% (f95efa07) down to 9.0% (8ded1f7a) |
+| site_category (website rows , larger categories) | from 28.3% (3e814130) down to 3.3% (76b2941d) |
+| app_category (app rows , larger categories) | from 25.0% (f95efa07) down to 9.0% (8ded1f7a) |
 | banner_pos | position 0 16.5% , position 1 18.4% |
 | hour / weekday | CTR only 16% to 19% , though traffic runs from 2% to 6% of rows across hours |
 
@@ -66,7 +66,7 @@ The SVM gives a score , not a probability , so it has no log loss. Plain logisti
 
 ## 4. Inference and interpretation
 
-- **Performance :** plain logistic regression is the best model. Its log loss is 0.405 against 0.458 for the baseline (12% lower) , ROC-AUC 0.734 and PR-AUC 0.358 (the base rate is 0.171). Train and test agree , so it is not overfitting , and our model matches sklearn's to 3 decimals.
+- **Performance :** plain logistic regression is the best model. Its log loss is 0.405 against 0.458 for the baseline (11.5% lower) , ROC-AUC 0.734 and PR-AUC 0.358 (the base rate is 0.171). Train and test agree , so it is not overfitting , and our model matches sklearn's to 3 decimals.
 - **Ranking :** the 10% of test impressions the model rates highest are clicked 41% of the time , the lowest 10% only 1.8% of the time. That is a 23x gap.
 - **Calibration :** the plain model's probabilities follow the real CTR across the deciles (it says 43% , reality is 41%). Class weighting does not rank any better (ROC-AUC 0.734) and pushes every probability up (mean 0.44 against a real 0.17) , which is why its log loss is 0.603. Taking log(c_pos / c_neg) off the bias undoes it (log loss back to 0.405 , almost the same as the plain model). For an ad platform the probability goes straight into the bid , so calibration matters more than any threshold.
 - **SVM :** it ranks worse than logistic regression and gives a score instead of a probability , so it can't price an impression.

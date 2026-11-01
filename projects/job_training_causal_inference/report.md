@@ -28,7 +28,8 @@ The ITT compares everyone offered training with everyone not offered , whether o
 
 - Employment : **+3.1 points** at 18 months , **+4.0 points** at 30 months.
 - Earnings : **+6,551 INR** at 18 months , **+9,076 INR** at 30 months (95% CI 7,084 to 11,069). That is 13.5% above the group not offered.
-- All p values are below 0.001 , and the effects grow between 18 and 30 months.
+- All p values are below 0.001. The standard errors are heteroskedasticity-robust (Welch's , the same as HC2 here).
+- **Growth :** testing each person's change from 18 to 30 months , the earnings effect grows by 2,525 INR (95% CI 212 to 4,838 , p = 0.032). The employment effect grows by 0.84 points , which is not significant (p = 0.24). As a share of the not offered mean , the earnings effect barely moves (12.6% to 13.5%).
 
 **For policymakers :** each applicant offered a place earns about 9,000 INR more at 30 months on average , counting the 38% who never took the place up.
 
@@ -38,18 +39,18 @@ Not done yet , see the last section.
 
 ## 4. Earnings , employment and subgroups
 
-- **Zero earnings :** 57% of those not offered and 53% of those offered earn nothing at 30 months , and earnings are 0 exactly when someone is not employed. So the earnings ITT is partly "more people working" and partly "workers earning more". Comparing only the employed is not a fair comparison , because the offer changes who is employed.
-- **Social categories :** at 30 months every group gains in both employment and earnings , with every 95% CI above 0. ST has the largest point estimates (+6.3 points , +11,961 INR) and also the widest intervals (the smallest group , 4,000). For ST the 18-month effects are not significant , so their gains show up later.
-- The intervals overlap heavily. The data does not show that any one group gains more than another.
-- **Multiple comparisons :** 16 subgroup tests at 5% would give about one false positive even with no real effects. After Bonferroni (each test at 0.05 / 16) , 12 of 16 stay significant , including all four 30-month earnings effects.
+- **Zero earnings :** 57% of those not offered and 53% of those offered earn nothing at 30 months , and earnings are 0 exactly when someone is not employed. So the earnings ITT is partly "more people working" and partly "workers earning more" : of the 9,076 INR , 6,201 comes from the first and 2,875 from the second , as arithmetic. Comparing only the employed is not a fair comparison , because the offer changes who is employed : among the employed , offered workers have 0.11 fewer years of schooling (p = 0.02) and are 1.7 points more often female (p = 0.03).
+- **Social categories :** at 30 months every group gains in both employment and earnings , with every 95% CI above 0. ST has the largest point estimates (+6.3 points , +11,961 INR) and also the widest intervals (the smallest group , 4,000). For ST the 18-month effects are not significant. Tested directly , ST's effects grow by 4.8 points (p = 0.035) and 7,870 INR (p = 0.021) , but neither passes a correction for the 8 such tests , so later gains are plausible , not firm.
+- **Differences between groups :** none of the 24 gaps between group effects (6 pairs x 4 outcomes) is below 0.05 , and the smallest p is 0.10. So the data does not show that any one group gains more than another. It doesn't prove they are equal either : ST's lead over General on 30-month earnings is 3,632 INR , with a CI of -2,849 to 10,114. The offer raised enrolment by 57.7 to 59.5 points in every group , so any gaps are not down to take-up.
+- **Multiple comparisons :** 16 subgroup tests at 5% would give about one false positive even with no real effects , and if they were independent there would be a 56% chance of at least one. After Bonferroni (each test at 0.05 / 16) , 12 of 16 stay significant , including all four 30-month earnings effects.
 
 ## 5. Recommendations (from the ITT so far)
 
-- **Continue the programme.** Offering training raises employment and earnings , the effects are clearly significant , and they grow over time.
+- **Continue the programme.** Offering training raises employment and earnings , and the effects are clearly significant.
 - **Statistical vs policy significance :** +9,076 INR is certain to be above 0 , but whether it is worth paying for depends on the cost per place offered , which is not in the data.
 - **Targeting :** every caste group benefits , and the data cannot tell the groups' effects apart. On this evidence the programme should stay open to all groups rather than be narrowed to one.
 - **Take-up :** 38% of offers are never used. Each offer that is not taken up dilutes the per-offer effect , so it is worth finding out why people decline.
-- **Future evaluations :** record the cost per place , follow up for longer (the effects are still growing at 30 months) , and use larger samples for small groups like ST.
+- **Future evaluations :** record the cost per place , follow up for longer (the earnings effect was still rising in rupees at 30 months) , and use larger samples for small groups like ST.
 
 ## Assumptions
 

@@ -7,5 +7,6 @@ scipy
 plotly
 seaborn
 matplotlib
+reportlab
 summarytools
 jupyter

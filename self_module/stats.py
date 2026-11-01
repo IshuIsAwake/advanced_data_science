@@ -27,6 +27,35 @@ def diff_in_means(y , z , level=0.95):
             'se' : se.item() , 'ci low' : (d - q * se).item() , 'ci high' : (d + q * se).item() , 'p' : p.item()}
 
 
+def welch_df(y , z):
+    """y : outcome , z : 1 = assigned , 0 = not assigned (both 1-d)
+    the degrees of freedom of the t distribution for the welch test"""
+    y , z = torch.as_tensor(y , dtype=torch.float64) , torch.as_tensor(z , dtype=torch.float64)
+    y1 , y0 = y[z == 1] , y[z == 0]
+    v1 , v0 = y1.var() / len(y1) , y0.var() / len(y0)
+
+    # t = Z / sqrt(chi2_df / df) , the chi2 part is the extra uncertainty from using s in place of the true spread
+    # welch's df is the chi2 whose mean and variance best match se^2 = v1 + v0 :
+    # df = (v1 + v0)^2 / ( v1^2 / (n1 - 1) + v0^2 / (n0 - 1) )
+    # chi2_df / df has mean 1 and sd sqrt(2 / df) , so at a large df we divide Z by almost exactly 1 and t is the normal
+    return ((v1 + v0) ** 2 / (v1 ** 2 / (len(y1) - 1) + v0 ** 2 / (len(y0) - 1))).item()
+
+
+def effect_gap(a , b , level=0.95):
+    """a , b : what diff_in_means returned for two separate groups of people
+    d_a - d_b                           do the two groups gain different amounts ?"""
+    gap = torch.tensor(a['diff'] - b['diff'] , dtype=torch.float64)
+
+    # the groups share no people , so the variances add :  var(d_a - d_b) = se_a^2 + se_b^2
+    se = torch.sqrt(torch.tensor(a['se'] ** 2 + b['se'] ** 2 , dtype=torch.float64))
+
+    # same CI and p value as diff_in_means , with the gap in place of d
+    q = torch.special.ndtri(torch.tensor((1 + level) / 2 , dtype=torch.float64))
+    p = 2 * torch.special.ndtr(-(gap / se).abs())
+
+    return {'gap' : gap.item() , 'se' : se.item() , 'ci low' : (gap - q * se).item() , 'ci high' : (gap + q * se).item() , 'p' : p.item()}
+
+
 def cramers_v(a , b):
     """a , b : two category columns as integer codes 0 , 1 , 2 ... (both 1-d)
     how strongly they go together , 0 = unrelated , 1 = one fixes the other , the labels don't matter"""

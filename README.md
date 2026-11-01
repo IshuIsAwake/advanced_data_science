@@ -7,6 +7,8 @@ Ishan Batra , 240485
 Two decision problems from the ADS assignment , one folder each under `projects/`.
 Each report follows BADIR : Business understanding , Analysis , Data insights , Inference , Recommendations.
 
+**Final report :** [`projects/ads_assignment_report.pdf`](projects/ads_assignment_report.pdf) , both parts in plain english.
+
 | part | folder | problem |
 |---|---|---|
 | 1 | `projects/ctr_competition/` | which ad impressions get clicked (Avazu click logs) |
@@ -20,6 +22,8 @@ REPRODUCE.md                          environment , data download and the order 
 requirements.txt
 self_module/                          models and estimators written from scratch in PyTorch , the maths is in the comments
 projects/
+    ads_assignment_report.pdf         the final report for both parts
+    build_report.py                   builds it
     ctr_competition/                  part 1
         *.ipynb                       notebooks , run in numbered order
         report.md                     the write up

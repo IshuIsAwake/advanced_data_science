@@ -42,6 +42,16 @@ Open each notebook from its own folder (Jupyter's default) and run them in numbe
 | `01_data_and_randomisation.ipynb` | seconds |
 | `02_itt.ipynb` | seconds |
 
+**Final report**
+
+After the notebooks , this draws the charts into `data/report/` and writes `projects/ads_assignment_report.pdf` , in seconds :
+
+```bash
+python projects/build_report.py
+```
+
+The charts come from `data/` , the numbers in its text are typed in from each `results.md`. It uses the Carlito font where the machine has it and DejaVu Sans otherwise , so the page breaks can differ.
+
 Headless , from the notebook's folder :
 
 ```bash
