@@ -31,7 +31,7 @@ Open each notebook from its own folder (Jupyter's default) and run them in numbe
 |---|---|---|
 | `01_eda.ipynb` | `data/ctr/*_sample.parquet` (every 40th row of each split) , `data/ctr/sizes.csv` , `data/ctr/hours_all.csv` | ~1.5 min the first time , seconds after |
 | `02_data_prep.ipynb` | `data/ctr/X_*.parquet` , `data/ctr/y_*.parquet` (needs ~20 GB RAM) | ~30 s |
-| `03_logistic_regression.ipynb` | `data/ctr/logistic_test.parquet` (needs more than 23 GB of free RAM , for the sklearn cell) | ~5 min on GPU |
+| `03_logistic_regression.ipynb` | `data/ctr/logistic_test.parquet` (ran under a 22 GB RAM limit) | ~5 min on GPU |
 | `04_svm.ipynb` | | ~8 min on GPU |
 | `05_sample_size_and_columns.ipynb` | `data/ctr/sweep_*` (ran under a 26 GB RAM limit) | ~30 min on GPU , settings that don't fit it train on the CPU |
 
