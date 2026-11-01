@@ -18,7 +18,7 @@ The brief describes 10,000 applicants in 16 districts. The file it links to has 
 
 - 40,000 applicants , 25 columns. The only empty values are in `training_type` , and only for the 23,140 people who did not enrol , so they mean "no training".
 - `training_type` and `months_in_training` are decided after the offer , so they are never used as controls.
-- **Balance :** across 14 baseline characteristics (prior earnings and employment , schooling , age , marriage , dependants , BPL card , gender , area , age group , caste) the offered and not offered groups differ by at most 0.025 standard deviations. One p value of the 14 is below 0.05 , and about 0.7 are expected by chance.
+- **Balance :** across 14 baseline characteristics (prior earnings and employment , schooling , age , marriage , dependants , BPL card , gender , area , age group , caste) the offered and not offered groups differ by at most 0.025 standard deviations. The largest gap (SC share) is also the only p value below 0.05 (p = 0.017). At alpha = 0.05 , 14 tests are expected to give 0.7 false positives , and with Bonferroni (0.05 / 14 = 0.00357) it doesn't pass.
 - Exactly 2/3 of applicants were offered training in every state , so the offer was randomised within states. **Randomisation looks successful.**
 - **Noncompliance :** 61.7% of those offered enrolled and 3.0% of those not offered enrolled anyway. The offer raised enrolment by 58.7 points. Being offered and being trained are not the same thing. A direct enrolled vs not enrolled comparison would mix the effect of training with who chooses to enrol.
 
@@ -31,7 +31,7 @@ The ITT compares everyone offered training with everyone not offered , whether o
 - All p values are below 0.001. The standard errors are heteroskedasticity-robust (Welch's , the same as HC2 here).
 - **Growth :** testing each person's change from 18 to 30 months , the earnings effect grows by 2,525 INR (95% CI 212 to 4,838 , p = 0.032). The employment effect grows by 0.84 points , which is not significant (p = 0.24). As a share of the not offered mean , the earnings effect barely moves (12.6% to 13.5%).
 
-**For policymakers :** each applicant offered a place earns about 9,000 INR more at 30 months on average , counting the 38% who never took the place up.
+**For policymakers :** each applicant offered training earns about 9,000 INR more at 30 months on average , counting the 38% who never took it up.
 
 ## 3. Instrumental variables and LATE
 
@@ -47,10 +47,10 @@ Not done yet , see the last section.
 ## 5. Recommendations (from the ITT so far)
 
 - **Continue the programme.** Offering training raises employment and earnings , and the effects are clearly significant.
-- **Statistical vs policy significance :** +9,076 INR is certain to be above 0 , but whether it is worth paying for depends on the cost per place offered , which is not in the data.
+- **Statistical vs policy significance :** +9,076 INR is certain to be above 0 , but whether it is worth paying for depends on the cost per offer , which is not in the data.
 - **Targeting :** every caste group benefits , and the data cannot tell the groups' effects apart. On this evidence the programme should stay open to all groups rather than be narrowed to one.
 - **Take-up :** 38% of offers are never used. Each offer that is not taken up dilutes the per-offer effect , so it is worth finding out why people decline.
-- **Future evaluations :** record the cost per place , follow up for longer (the earnings effect was still rising in rupees at 30 months) , and use larger samples for small groups like ST.
+- **Future evaluations :** record the cost per offer , follow up for longer (the earnings effect was still rising in rupees at 30 months) , and use larger samples for small groups like ST.
 
 ## Assumptions
 

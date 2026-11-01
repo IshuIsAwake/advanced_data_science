@@ -4,7 +4,7 @@ Numbers are in [results.md](results.md).
 
 ## 1. Business understanding
 
-An ad platform shows ads on websites and inside apps and is paid when an ad is clicked. The **problem** is to tell which impressions are likely to be clicked , so the budget goes to the impressions that pay.
+An ad platform shows ads on websites and inside apps and , we assume , is paid when an ad is clicked. The **problem** is to tell which impressions are likely to be clicked , so the budget goes to the impressions that pay.
 
 - **Target :** `click` (1 = clicked). Binary classification.
 - **Questions :** what share of impressions get clicked , which devices / apps / sites / positions / hours click more , can a model rank impressions better than a guess , and where should the budget go.
@@ -25,8 +25,8 @@ An ad platform shows ads on websites and inside apps and is paid when an ad is c
 | website vs app | websites 19.8% , apps 12.0% |
 | device_type | type 0 20.9% , type 1 (92% of traffic) 16.9% , types 4 and 5 about 9.5% |
 | device_conn_type | type 0 (86% of traffic) 18.1% , types 3 and 5 below 5% |
-| site_category (website rows , larger categories) | from 28.3% (3e814130) down to 3.3% (76b2941d) |
-| app_category (app rows , larger categories) | from 25.0% (f95efa07) down to 9.0% (8ded1f7a) |
+| site_category (website rows , 8 largest categories) | from 28.3% (3e814130) down to 3.3% (76b2941d) |
+| app_category (app rows , 8 largest categories) | from 25.0% (f95efa07) down to 9.0% (8ded1f7a) |
 | banner_pos | position 0 16.5% , position 1 18.4% |
 | hour / weekday | CTR only 16% to 19% , though traffic runs from 2% to 6% of rows across hours |
 
@@ -46,7 +46,7 @@ An ad platform shows ads on websites and inside apps and is paid when an ad is c
 - **More rows alone barely help :** at the 0.1% cut , 1 in 128 to 1 in 32 gains 0.0010 and 1 in 20 gains nothing more. So the sample stayed at what fits and the columns got the room.
 - **Leakage :** the kept values , the one hot columns and the scaler all come from train. Valid is used for the threshold , for C and for the settings above. Test is used once.
 - **Models :**
-  - a baseline that always predicts the train CTR
+  - a baseline that always predicts the train CTR. It uses nothing about the ad , and no other fixed number gets a lower log loss on train
   - logistic regression
   - class weighted logistic regression (each class carries half the loss)
   - class weighted linear SVM , with C tuned on validation
@@ -62,15 +62,15 @@ An ad platform shows ads on websites and inside apps and is paid when an ad is c
 | logistic regression , class weighted | 0.603 | 0.734 | 0.357 | 0.293 | 0.666 | 0.407 |
 | linear SVM , class weighted (C = 0.01) | - | 0.717 | 0.312 | 0.277 | 0.693 | 0.396 |
 
-The SVM gives a score , not a probability , so it has no log loss. Plain logistic matches sklearn's `LogisticRegression` to 3 decimals. The SVM is close to sklearn's `SGDClassifier` on ranking (ROC-AUC 0.717 against 0.713 , PR-AUC 0.312 for both) and on F1 (0.396 against 0.394).
+F1 picks the threshold because best accuracy sits near 0.5 , which catches only 7% of clicks. Real costs would set it if we had them. The SVM gives a score , not a probability , so it has no log loss. Plain logistic matches sklearn's `LogisticRegression` to 3 decimals. The SVM is close to sklearn's `SGDClassifier` on ranking (ROC-AUC 0.717 against 0.713 , PR-AUC 0.312 for both) and on F1 (0.396 against 0.394).
 
 ## 4. Inference and interpretation
 
 - **Performance :** plain logistic regression is the best model. Its log loss is 0.405 against 0.458 for the baseline (11.5% lower) , ROC-AUC 0.734 and PR-AUC 0.358 (the base rate is 0.171). Train and test agree , so it is not overfitting , and our model matches sklearn's to 3 decimals.
-- **Ranking :** the 10% of test impressions the model rates highest are clicked 41% of the time , the lowest 10% only 1.8% of the time. That is a 23x gap.
+- **Ranking :** the raw outputs on the test set are sorted and cut into 10 equal bins (`03_logistic_regression.ipynb`). Bin 1 , where the model is least confident of a click , has an actual CTR of 1.8% , and bin 10 , where it is most confident , has 41%. That is a 23x gap.
 - **Calibration :** the plain model's probabilities follow the real CTR across the deciles (it says 43% , reality is 41%). Class weighting does not rank any better (ROC-AUC 0.734) and pushes every probability up (mean 0.44 against a real 0.17) , which is why its log loss is 0.603. Taking log(c_pos / c_neg) off the bias undoes it (log loss back to 0.405 , almost the same as the plain model). For an ad platform the probability goes straight into the bid , so calibration matters more than any threshold.
 - **SVM :** it ranks worse than logistic regression and gives a score instead of a probability , so it can't price an impression.
-- **Important features :** site and app categories , specific sites and apps , banner position 1 , and some C17 values. Many one hot columns overlap (a site sits inside a category) , so a weight is the effect with the other columns held fixed , not the raw CTR gap.
+- **Important features :** app_id , C17 , device_model and site_id raise log loss the most when removed. By weight : site and app categories , specific sites and apps , banner position 1 , and some C17 values. Many one hot columns overlap (a site sits inside a category) , so a weight is the effect with the other columns held fixed , not the raw CTR gap.
 - **Predictive vs causal :** websites click more than apps , and position 1 more than position 0 , but ads are not placed at random. Advertisers , publishers and the platform choose where each ad goes and who sees it , so a high CTR in position 1 may just mean better ads get position 1. The model finds which impressions tend to get clicked. Whether moving an ad changes its clicks needs an experiment (an A/B test that randomises the placement).
 - **Limitations :**
   - 1 in 40 rows used.
@@ -82,7 +82,7 @@ The SVM gives a score , not a probability , so it has no log loss. Plain logisti
 
 ## 5. Recommendations
 
-1. **Score every impression with the plain logistic model and bid by expected value** , P(click) x price per click. Its probabilities are calibrated , so they can be used directly.
+1. **Rank ads by predicted CTR x price per click.** Run each ad through the plain logistic model to get a predicted CTR , multiply it by the price per click (what the client pays us for the ad) and sort. The ads highest on this get the most budget. The predicted CTRs are calibrated , so they can be used directly. The price is not in this data , and paying per click is our assumption.
 2. **Put the budget on the top of the ranking.** The top 30% by predicted probability click at about 32% , the bottom 30% at about 4.5%.
 3. **Shift spend between segments , but test it first.**
    - Website inventory (20% CTR) beats in-app (12%).

@@ -13,7 +13,7 @@ First stage (offer -> enrolment) : **+58.7 points** , 95% CI 58.0 to 59.3.
 
 ## Balance
 
-14 baseline characteristics. Largest gap 0.025 standard deviations (SC share). 1 of 14 p values below 0.05 (SC share , p = 0.017) , about 0.7 expected by chance. Exactly 2/3 offered in every state.
+14 baseline characteristics. Largest gap 0.025 standard deviations (SC share). 1 of 14 p values below 0.05 (SC share , p = 0.017) , about 0.7 expected by chance. With Bonferroni (0.05 / 14 = 0.00357) none passes. Exactly 2/3 offered in every state.
 
 ## ITT
 
